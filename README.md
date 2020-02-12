@@ -143,7 +143,7 @@
 
   上述时间复杂度随问题规模n的扩大其增长速度是不同的，其增长速度的快慢次序表示如下：
 
-  O(1)<O(log<sub>2</sub>n)<O(n)<O(nlog<sub>2</sub>n)<O(n<sup>2</sup>)<O(n<sup>3</sup>)<O(2<sup>2</sup>)
+  O(1)<O(log<sub>2</sub>n)<O(n)<O(nlog<sub>2</sub>n)<O(n<sup>2</sup>)<O(n<sup>3</sup>)<O(2<sup>n</sup>)
 
 - 空间复杂度
 

@@ -107,7 +107,6 @@
 > （3）伪代码算法描述：如类C语言算法描述。这种算法描述很像程序，但它不能直接在计算机上编译、运行。这种方法很容易编写、阅读算法，而且格式统一，结构清晰，专业设计人员经常使用类C语言来描述算法。
 >
 > （4）高级程序设计语言编写的程序或函数：这是直接使用高级语言来描述算法，它可在计算机上运行并获得结果，是给定问题能在有限时间内被求解，通常这种算法描述也成为程序。
-> 
 
 ### 3.算法分析
 
@@ -143,7 +142,7 @@
 
   上述时间复杂度随问题规模n的扩大其增长速度是不同的，其增长速度的快慢次序表示如下：
 
-  O(1)<O(log<sub>2</sub>n)<O(n)<O(nlog<sub>2</sub>n)<O(n<sup>2</sup>)<O(n<sup>3</sup>)<O(2<sup>n</sup>)
+  O(1)<O(log<sub>2</sub>n)<O(n)<O(nlog<sub>2</sub>n)<O(n<sup>2</sup>)<O(n<sup>3</sup>)<O(2<sup>2</sup>)
 
 - 空间复杂度
 
@@ -157,5 +156,237 @@
 
   算法执行时间的耗费和所占存储空间的耗费是相互矛盾的，难以兼得的。即算法执行时间上的节省是以增加存储空间为代价的，反之亦然。不过，一般而言，常常已以算法执行时间作为算法优劣的主要衡量标准。
 
-  
 
+## 线性表
+
+线性表是最简单、最基本、最常用的一种数据结构，几乎所有线性关系都可以用线性表表示。线性表是线性结构的抽象，线性结构的特点是数据元素之间具有一对一的线性关系，数据元素“一个接一个地排列”。因此，线性表可以想象为一种数据元素的序列。线性表有顺序存储和链式存储两种存储方法，基本操作包括插入、删除和查找等。
+
+### 1.线性表的定义
+
+线性表（Linear List）是一种线性结构。在一个线性表中数据元素的类型相同的，或者说线性表是由同一类型的数据元素构成的线性结构。在实际问题中线性表的例子很多，如学生情况信息表（表中数据元素的类型为学生信息记录类型）、字符串（表中数据元素的类型为字符型）等。
+
+线性表中，除了表头和表尾两个元素，其余元素均具有一个直接前趋结点和直接后继结点。
+
+### 2.线性表的基本操作
+
+数据结构中元素的操作（或称运算）是定义在逻辑结构层次上的，而操作的具体实现是建立在存储结构上的，因此下面定义的线性表的基本操作作为逻辑结构的一部分，每一个操作的具体实现只有在确定了线性表的存储结构之后才能完成。
+
+> （1）数据结构上的基本操作（或运算）不是它的全部操作（或运算），而是一些常用的基本操作（或运算），每一个基本操作（或运算）在实现时也可能根据不同的存储结构派生出一系列相关的操作（或运算）。例如，线性表的查找在链式存储结构中还有按序号查找；再如，插入操作，可能是将新元素插入到某一元素之前，也可能是将新元素插入到某一元素之后，还可能是将新元素插入到其他适当的位置，等等。不可能也没有必要全部定义出一种数据结构的运算集，读者掌握了某一数据结构上的基本运算后，其他运算可以通过基本运算来实现，也可以直接去实现。
+>
+> （2）在上面各操作中定义的线性表只是一个在逻辑结构层次上抽象的线性表，尚未涉及它的存储结构，因此每个操作在逻辑结构层次上尚不能用具体的程序设计语言写出具体的算法，其算法只有在存储结构确立之后才能用具体程序设计语言实现。
+>
+> （3）正因为这些操作仅是逻辑上的说明，因此以上用来定义操作的函数中所列的参数的数据类型并不明确说明，只是隐含在函数说明中，对于参数的传递方式也不予考虑，这是因为只有在涉及具体实现时采取明确其参数的数据类型和传递方式。
+
+### 顺序表
+
+顺序表的顺序存储是指在内存中用地址连续的一块存储空间顺序存放线性表中的各数据元素，用这种存储形式存储的线性表称为顺序表。因为内存中的地址空间是线性的，所以用物理位置关系上的相邻实现数据元素之间的逻辑相邻关系既简单又自然。
+
+顺序表具有按数据元素的序号随机存取的特点。
+
+在程序设计语言中，一维数组在内存中占用的存储空间就是一组连续的存储区域，因此，用一维数组来表示顺序表的数据存储区域是在合适不过的了。考虑到线性表有插入、删除等运算，即表长是可变的，因此，数组的容量要设计得足够大。
+
+顺序表实现代码：
+
+```c
+C语言实现
+#include<stdio.h>
+#include<stdlib.h>
+#define MAXSIZE 100
+
+typedef struct
+{
+    int data[MAXSIZE];
+    int last;
+} SeqList;
+
+//顺序表的初始化
+SeqList * init_SeqList()
+{
+    SeqList *L;
+    L=malloc(sizeof(SeqList));
+    L->last=-1;
+    return L;
+}
+
+int Insert_SeqList(SeqList *L, int i, int x)
+{
+    int j;
+    if(L->last==MAXSIZE-1)
+    {
+        printf("顺序表已满");
+        return -1;
+    }
+    if(i<1||i>L->last+2)
+    {
+        printf("插入位置错误");
+        return 0;
+    }
+    for(j=L->last; j>=i-1; j--)
+    {
+        L->data[j+1]=L->data[j];
+    }
+    L->data[i-1]=x;
+    L->last++;
+    return 1;
+}
+
+int Delete_SqeList(SeqList *L, int i)
+{
+    int j;
+    if(i<1||i>L->last+1)
+    {
+        printf("删除错误，不存在第i个元素");
+        return 0;
+    }
+    for(j=i; j<=L->last; j++)
+    {
+        L->data[j-1]=L->data[j];
+    }
+    L->last--;
+    return 1;
+}
+
+int Location_SeqList(SeqList *L, int x)
+{
+    int i=0;
+    while(i<=L->last&&L->data[i]!=x)
+        i++;
+    if(i>L->last)
+        return -1;
+    else
+        return i;
+}
+
+//以a1为界，a1前面的值均比a1小，a1后面的值均比a1大
+void Partition_SeqList(SeqList *L)
+{
+    int i,j;
+    int x,y;
+    x=L->data[0];
+    for(i=1; i<=L->last; i++)
+    {
+        if(L->data[i]<x)
+        {
+            y=L->data[i];
+            for(j=i-1; j>=0; j--)
+                L->data[j+1]=L->data[j];
+            L->data[0]=y;
+        }
+    }
+}
+//有序表的合并算法
+void Merge_SeqList(SeqList A, SeqList B, SeqList *C)
+{
+    int i=0, j=0, k=0;
+    while(i<=A.last&&j<=B.last)
+    {
+        if(A.data[i]<B.data[j])
+        {
+            C->data[k++]=A.data[i++];
+        }
+        else
+            C->data[k++]=B.data[j++];
+    }
+    while(i<=A.last)
+        C->data[k++]=A.data[i++];
+    while(j<=B.last)
+        C->data[k++]=B.data[j++];
+    C->last=k-1;
+}
+
+//打印顺序表
+void Printall_SeqList(SeqList *L)
+{
+    int i=0;
+    for(; i<=L->last; i++)
+        if(i!=L->last)
+            printf("%d, ", L->data[i]);
+        else
+            printf("%d", L->data[i]);
+}
+
+int main()
+{
+    SeqList *L;
+    int i=1;
+    L=init_SeqList();
+    for(; i<=20; i++)
+        Insert_SeqList(L, i, i);
+    printf("打印当前顺序表：\n");
+    Printall_SeqList(L);
+    printf("\n");
+    printf("元素5的下标是：%d\n", Location_SeqList(L, 5));
+    Delete_SqeList(L, 4);
+    printf("删除第5个元素之后：\n");
+    Printall_SeqList(L);
+    return 0;
+}
+```
+
+```python
+# Python语言实现
+class InsertError(Exception):
+    pass
+
+
+class DeleteError(Exception):
+    pass
+
+
+class SeqList:
+    def __init__(self):
+        self.MAXSIZE = 100
+        self.data = [None] * self.MAXSIZE
+        self.last = -1
+
+    def Insert_SeqList(self, i, x):
+        if self.last == self.MAXSIZE:
+            raise InsertError("顺序表已满")
+        if i < 1 or i > self.last + 2:
+            raise InsertError("插入位置错误")
+        for j in range(self.last, i - 1, -1):
+            self.data[j + 1] = self.data[j]
+        self.data[i - 1] = x
+        self.last += 1
+
+    def Delete_SeqList(self, i):
+        if i < 1 or i > self.last + 1:
+            raise DeleteError("删除元素的位置错误")
+
+    def Location_SeqList(self, x):
+        for i in range(0, self.last):
+            if self.data[i] == x:
+                return i
+        return "元素未找到"
+
+    def Partition_SeqList(self):
+        x = self.data[0]
+        for i in range(1, self.last + 1):
+            if self.data[i] < x:
+                y = self.data[i]
+                for j in range(i - 1, -1, -1):
+                    self.data[j + 1] = self.data[j]
+                self.data[0] = y
+
+    def Print_SeqList(self):
+        for i in range(0, self.last + 1):
+            if i != self.last:
+                print(self.data[i], end=", ")
+            else:
+                print(self.data[i], end="")
+
+
+if __name__ == "__main__":
+    A = SeqList()
+    for i in range(1, 20):
+        A.Insert_SeqList(i, i)
+    A.Print_SeqList()
+```
+
+### 线性表的链式存储及其操作的实现
+
+由于顺序表的存储特点是用物理上的相邻关系实现逻辑上的相邻关系，它要求用连续的存储单元顺序存储线性表中各元素，因此，在对顺序表插入、删除时，需要通过移动数据元素来实现，影响了运行效率。线性表的链式存储结构，它不需要用地址连续的存储单元来实现，因为它不要求逻辑上相邻的两个数据元素在物理上也相邻。在链式存储结构中，数据元素之间的逻辑关系是通过"链"来连接的，因此对线性表的插入、删除不需要移动数据元素。
+
+#### 1.单链表
+
+链表是通过一组任意的存储单元来存储线性表中的数据元素的。

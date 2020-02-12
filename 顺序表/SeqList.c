@@ -22,12 +22,12 @@ int Insert_SeqList(SeqList *L, int i, int x)
     int j;
     if(L->last==MAXSIZE-1)
     {
-        printf("表满");
+        printf("顺序表已满");
         return -1;
     }
     if(i<1||i>L->last+2)
     {
-        printf("位置错");
+        printf("插入位置错误");
         return 0;
     }
     for(j=L->last; j>=i-1; j--)
@@ -44,10 +44,10 @@ int Delete_SqeList(SeqList *L, int i)
     int j;
     if(i<1||i>L->last+1)
     {
-        printf("不存在第i个元素");
+        printf("删除错误，不存在第i个元素");
         return 0;
     }
-    for(j=i; j<=L->last; i++)
+    for(j=i; j<=L->last; j++)
     {
         L->data[j-1]=L->data[j];
     }
@@ -67,7 +67,7 @@ int Location_SeqList(SeqList *L, int x)
 }
 
 //以a1为界，a1前面的值均比a1小，a1后面的值均比a1大
-void partition_SeqList(SeqList *L)
+void Partition_SeqList(SeqList *L)
 {
     int i,j;
     int x,y;
@@ -78,15 +78,13 @@ void partition_SeqList(SeqList *L)
         {
             y=L->data[i];
             for(j=i-1; j>=0; j--)
-            {
                 L->data[j+1]=L->data[j];
-                L->data[0]=y;
-            }
+            L->data[0]=y;
         }
     }
 }
 //有序表的合并算法
-void merge_SeqList(SeqList A, SeqList B, SeqList *C)
+void Merge_SeqList(SeqList A, SeqList B, SeqList *C)
 {
     int i=0, j=0, k=0;
     while(i<=A.last&&j<=B.last)
@@ -106,7 +104,7 @@ void merge_SeqList(SeqList A, SeqList B, SeqList *C)
 }
 
 //打印顺序表
-void printall_SeqList(SeqList *L)
+void Printall_SeqList(SeqList *L)
 {
     int i=0;
     for(; i<=L->last; i++)
@@ -123,7 +121,12 @@ int main()
     L=init_SeqList();
     for(; i<=20; i++)
         Insert_SeqList(L, i, i);
-    printall_SeqList(L);
+    printf("打印当前顺序表：\n");
+    Printall_SeqList(L);
+    printf("\n");
+    printf("元素5的下标是：%d\n", Location_SeqList(L, 5));
+    Delete_SqeList(L, 4);
+    printf("删除第5个元素之后：\n");
+    Printall_SeqList(L);
     return 0;
 }
-

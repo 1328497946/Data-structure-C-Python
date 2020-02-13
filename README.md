@@ -714,6 +714,33 @@ int Delete_LinkList2(LinkList L, int i)
     return 1;
 }
 
+//带头结点单链表去重算法
+void Pur_LinkList(LinkList L)
+{
+    LNode *p, *q, *r;
+    //链表为空
+    if(!L->next)
+        return;
+    p=L->next;/*p指向第一个结点*/
+    while(p)
+    {
+        q=p;
+        while(q->next)
+        {
+            if(q->next->data==p->data)
+            {
+                r=q->next;
+                q->next=r->next;
+                free(r);
+            }
+            else
+                q=q->next;
+        }
+        p=p->next;
+    }
+}
+
+
 int main()
 {
     LinkList L;
@@ -734,6 +761,342 @@ int main()
 
 对于单链表，只能从头结点开始遍历整个链表；而对于单循环链表，则可以从表中任意结点开始遍历整个链表。不仅如此，有时对链表常做的操作是在表尾、表头进行的，此时可以改变一下链表的标识方法，不用头指针而用一个指向尾结点的指针R来标识，这样在许多时候可以提高操作效率。
 
+```C
+//保存头指针的单循环表C语言实现
+#include<stdlib.h>
+#include<stdio.h>
+
+typedef struct cLNode
+{
+    int data;
+    struct cLNode *next;
+} CLNode, *CLinkList;
+
+//带头节点循环单链表建立算法（头部插入）
+CLinkList Create_CLinkList1()
+{
+    CLinkList L;
+    CLNode *q, *s;
+    int x;
+    L = (CLinkList)malloc(sizeof(CLNode));
+    L->next = NULL;
+    scanf("%d", &x);
+    while(x!=0)
+    {
+        q=malloc(sizeof(CLNode));
+        q->data=x;
+        if(!L->next)
+            s=q;
+        q->next=L->next;
+        L->next=q;
+        s->next=q;
+        scanf("%d", &x);
+    }
+    return L;
+}
+
+//带头结点循环单链表建立算法（尾部插入）
+CLinkList Create_CLinkList2()
+{
+    CLinkList L;
+    CLNode *q;
+    int x;
+    L = malloc(sizeof(CLNode));
+    L->next=NULL;
+    q=L;
+    scanf("%d", &x);
+    while(x!=0)
+    {
+        q->next=malloc(sizeof(CLNode));
+        q->next->data=x;
+        q=q->next;
+        scanf("%d", &x);
+    }
+    q->next=L->next;
+    return L;
+}
+
+//打印带头结点循环单链表算法
+void Print_CLinkList(CLinkList L)
+{
+    CLNode *p;
+    p=L->next;
+    while(1)
+    {
+        if(p->next==L->next)
+        {
+            printf("%d", p->data);
+            break;
+        }
+        else
+        {
+            printf("%d, ", p->data);
+        }
+        p=p->next;
+    }
+}
+
+
+//单循环链表长度
+int Length_CLinkList(CLinkList L)
+{
+    CLNode *p;
+    int count = 0;
+    p=L->next;
+    while(p->next&&p->next!=p)
+    {
+        count++;
+        p=p->next;
+    }
+    return count;
+}
+
+int main()
+{
+    CLinkList A;
+    A=Create_CLinkList1();
+    printf("链表输出\n");
+    Print_CLinkList(A);
+    return 0;
+}
+```
+
 #### 3.双向链表
 
 单链表的结点中只有一个指向其后继结点的指针域next，因此，若已知某结点的指针为p，其后继结点的指针为p->next，而找到其前趋则只能从该链表的头指针开始，顺着各结点的next域前行，也就是说，找后继的时间复杂度是O(1)，而找前趋的时间复杂度是O(n)，如果希望找前趋的时间复杂度达到O(1)，则只能付出空间的代价：每个结点再加一个指向前趋的指针域。
+
+```C
+//带头结点的双向链表C语言实现
+#include<stdlib.h>
+#include<stdio.h>
+
+typedef int datatype;
+typedef struct dLNode
+{
+    datatype data;
+    struct dLNode *prior, *next;
+} DLNode, *DLinkList;
+
+//带头结点双向链表的建立算法（头部插入）
+DLinkList Create_DLinkList2()
+{
+    DLinkList L;
+    int x;
+    DLNode *p;
+    L=(DLinkList)malloc(sizeof(DLNode));
+    L->prior=NULL;
+    L->next=NULL;
+    scanf("%d", &x);
+    while(x!=0)
+    {
+        p=malloc(sizeof(DLNode));
+        p->data=x;
+        p->next=L->next;
+        if(p->next)
+            p->next->prior=p;
+        L->next=p;
+        L->next->prior=L;
+        scanf("%d", &x);
+    }
+    return L;
+}
+
+//带头结点双向链表的建立算法（尾部插入）
+DLinkList Create_DLinkList1()
+{
+    DLinkList L;
+    DLNode *p;
+    int x;
+    L=(DLinkList)malloc(sizeof(DLNode));
+    L->next=NULL;
+    L->prior=NULL;
+    p=L;
+    scanf("%d", &x);
+    while(x!=0)
+    {
+        p->next=malloc(sizeof(DLNode));
+        p->next->data=x;
+        p->next->prior=p;
+        p=p->next;
+        scanf("%d", &x);
+    }
+    p->next=NULL;
+    return L;
+}
+
+//打印带头结点的双向链表
+void Print_DLinkList(DLinkList L)
+{
+    DLNode *p;
+    p=L->next;
+    while(p)
+    {
+        if(p->next)
+            printf("%d, ", p->data);
+        else
+            printf("%d", p->data);
+        p=p->next;
+    }
+}
+
+int main()
+{
+    DLinkList L;
+    L=Create_DLinkList2();
+    Print_DLinkList(L);
+    return 0;
+}
+```
+
+## 栈
+
+### 1.栈
+
+栈（Stack）是限制在表的一端进行插入和删除操作的线性表。允许进行插入、删除操作的这一端称为顶（Top），另一个固定端称为栈底。当表中没有元素时称为空战。栈又称为“后进先出”（Last-In-First-Out，LIFO）或“先进后出”（FIrst-In-Last-Out，FILO）的线性表，简称“LIFO表”或“FILO”表。
+
+#### 顺序栈
+
+利用顺序存储方式来实现的栈称为顺序栈。类似于顺序表的定义，栈中的数据元素用一个预设的足够长度的一维数组来实现。
+
+```C
+#include<stdio.h>
+#include<stdlib.h>
+#define MAXSIZE 100
+
+typedef int datatype;
+typedef struct
+{
+    datatype data[MAXSIZE];
+    int top;
+} SeqStack;
+
+SeqStack * Init_SeqStack()
+{
+    SeqStack *s;
+    s=malloc(sizeof(SeqStack));
+    s->top=-1;
+    return s;
+}
+
+int Empty_SeqStack(SeqStack *s)
+{
+    if(s->top==-1)
+        return 1;
+    return 0;
+}
+
+int Push_SeqStack(SeqStack *s, datatype x)
+{
+    if(s->top==MAXSIZE-1)
+        return 0;
+    s->top++;
+    s->data[s->top]=x;
+    return 1;
+}
+
+int Pop_SeqStack(SeqStack *s)
+{
+    int temp;
+    if(Empty_SeqStack(s))
+        return 0;
+    temp=s->data[s->top];
+    s->top--;
+    return temp;
+}
+
+int Top_SeqStack(SeqStack *s)
+{
+    if(Empty_SeqStack(s))
+        return 0;
+    return s->data[s->top];
+}
+
+int main()
+{
+    SeqStack *s;
+    int i,j,k;
+    s=Init_SeqStack();
+    Push_SeqStack(s, 1);
+    Push_SeqStack(s ,2);
+    Push_SeqStack(s, 3);
+    i=Pop_SeqStack(s);
+    j=Pop_SeqStack(s);
+    k=Pop_SeqStack(s);
+    printf("%d %d %d", i, j, k);
+    return 0;
+}
+```
+
+链栈
+
+用链式存储结构实现的栈称为链栈。通常链栈用单链表表示，因为其节点结构与单链表的结点结构相同。
+
+```C
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef int datatype;
+typedef struct node
+{
+    datatype data;
+    struct node *next;
+} StackNode, *LinkStack;
+
+LinkStack Init_LinkStack()
+{
+    return NULL;
+}
+
+int Empty_LinkStack(LinkStack top)
+{
+    if(top==NULL)
+        return 1;
+    return 0;
+}
+
+LinkStack Push_LinkStack(LinkStack top, datatype x)
+{
+    StackNode *s;
+    s=malloc(sizeof(StackNode));
+    s->data=x;
+    s->next=top;
+    top=s;
+    return top;
+}
+
+LinkStack Pop_LinkStack(LinkStack top, datatype *x)
+{
+    StackNode *p;
+    if(top==NULL)
+        return NULL;
+    *x=top->data;
+    p=top;
+    top=top->next;
+    free(p);
+    return top;
+}
+
+int main()
+{
+    LinkStack top;
+    int i, j ,k;
+    top=Init_LinkStack();
+    top=Push_LinkStack(top, 1);
+    top=Push_LinkStack(top, 2);
+    top=Push_LinkStack(top, 3);
+    top=Pop_LinkStack(top, &i);
+    top=Pop_LinkStack(top, &j);
+    top=Pop_LinkStack(top, &k);
+    printf("%d %d %d", i, j, k);
+    return 0;
+}
+```
+
+### 队列
+
+#### 1.队列的定义
+
+队列是一种“先进先出”（First-In-First-Out）的数据结构。插入在表一端进行，而删除在表的另一端进行，这种数据结构被称为队列。队尾是允许插入的一端，队头是允许删除的一端。
+
+#### 顺序队
+

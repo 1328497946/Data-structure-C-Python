@@ -191,7 +191,7 @@
 C语言实现
 #include<stdio.h>
 #include<stdlib.h>
-#define MAXSIZE 100
+#define MAXSIZE １00
 
 typedef struct
 {
@@ -204,46 +204,46 @@ SeqList * init_SeqList()
 {
     SeqList *L;
     L=malloc(sizeof(SeqList));
-    L->last=-1;
+    L->last=-１;
     return L;
 }
 
 int Insert_SeqList(SeqList *L, int i, int x)
 {
     int j;
-    if(L->last==MAXSIZE-1)
+    if(L->last==MAXSIZE-１)
     {
         printf("顺序表已满");
-        return -1;
+        return -１;
     }
-    if(i<1||i>L->last+2)
+    if(i<1||i>L->last+２)
     {
         printf("插入位置错误");
         return 0;
     }
-    for(j=L->last; j>=i-1; j--)
+    for(j=L->last; j>=i-１; j--)
     {
-        L->data[j+1]=L->data[j];
+        L->data[j+１]=L->data[j];
     }
-    L->data[i-1]=x;
+    L->data[i-１]=x;
     L->last++;
-    return 1;
+    return １;
 }
 
 int Delete_SqeList(SeqList *L, int i)
 {
     int j;
-    if(i<1||i>L->last+1)
+    if(i<1||i>L->last+１)
     {
         printf("删除错误，不存在第i个元素");
         return 0;
     }
     for(j=i; j<=L->last; j++)
     {
-        L->data[j-1]=L->data[j];
+        L->data[j-１]=L->data[j];
     }
     L->last--;
-    return 1;
+    return １;
 }
 
 int Location_SeqList(SeqList *L, int x)
@@ -252,7 +252,7 @@ int Location_SeqList(SeqList *L, int x)
     while(i<=L->last&&L->data[i]!=x)
         i++;
     if(i>L->last)
-        return -1;
+        return -１;
     else
         return i;
 }
@@ -268,8 +268,8 @@ void Partition_SeqList(SeqList *L)
         if(L->data[i]<x)
         {
             y=L->data[i];
-            for(j=i-1; j>=0; j--)
-                L->data[j+1]=L->data[j];
+            for(j=i-１; j>=0; j--)
+                L->data[j+１]=L->data[j];
             L->data[0]=y;
         }
     }
@@ -291,7 +291,7 @@ void Merge_SeqList(SeqList A, SeqList B, SeqList *C)
         C->data[k++]=A.data[i++];
     while(j<=B.last)
         C->data[k++]=B.data[j++];
-    C->last=k-1;
+    C->last=k-１;
 }
 
 //打印顺序表
@@ -315,9 +315,9 @@ int main()
     printf("打印当前顺序表：\n");
     Printall_SeqList(L);
     printf("\n");
-    printf("元素5的下标是：%d\n", Location_SeqList(L, 5));
-    Delete_SqeList(L, 4);
-    printf("删除第5个元素之后：\n");
+    printf("元素５的下标是：%d\n", Location_SeqList(L, ５));
+    Delete_SqeList(L, ４);
+    printf("删除第５个元素之后：\n");
     Printall_SeqList(L);
     return 0;
 }
@@ -335,22 +335,22 @@ class DeleteError(Exception):
 
 class SeqList:
     def __init__(self):
-        self.MAXSIZE = 100
+        self.MAXSIZE = １00
         self.data = [None] * self.MAXSIZE
-        self.last = -1
+        self.last = -１
 
     def Insert_SeqList(self, i, x):
         if self.last == self.MAXSIZE:
             raise InsertError("顺序表已满")
-        if i < 1 or i > self.last + 2:
+        if i < １ or i > self.last + ２:
             raise InsertError("插入位置错误")
-        for j in range(self.last, i - 1, -1):
-            self.data[j + 1] = self.data[j]
-        self.data[i - 1] = x
-        self.last += 1
+        for j in range(self.last, i - １, -１):
+            self.data[j + １] = self.data[j]
+        self.data[i - １] = x
+        self.last += １
 
     def Delete_SeqList(self, i):
-        if i < 1 or i > self.last + 1:
+        if i < １ or i > self.last + １:
             raise DeleteError("删除元素的位置错误")
 
     def Location_SeqList(self, x):
@@ -361,15 +361,15 @@ class SeqList:
 
     def Partition_SeqList(self):
         x = self.data[0]
-        for i in range(1, self.last + 1):
+        for i in range(１, self.last + １):
             if self.data[i] < x:
                 y = self.data[i]
-                for j in range(i - 1, -1, -1):
-                    self.data[j + 1] = self.data[j]
+                for j in range(i - １, -１, -１):
+                    self.data[j + １] = self.data[j]
                 self.data[0] = y
 
     def Print_SeqList(self):
-        for i in range(0, self.last + 1):
+        for i in range(0, self.last + １):
             if i != self.last:
                 print(self.data[i], end=", ")
             else:
@@ -378,7 +378,7 @@ class SeqList:
 
 if __name__ == "__main__":
     A = SeqList()
-    for i in range(1, 20):
+    for i in range(１, ２0):
         A.Insert_SeqList(i, i)
     A.Print_SeqList()
 ```
@@ -596,7 +596,7 @@ int Insert_LinkList1(LinkList *L, int i, int x)
     int length;
     length = Length_LinkList1(*L);
     //printf("%d\n", length);
-    if(i<1||i>length+1)
+    if(i<1||i>length+１)
         return 0;
     if(i==1)
     {
@@ -608,16 +608,16 @@ int Insert_LinkList1(LinkList *L, int i, int x)
         s->data=x;
         s->next=*L;
         *L=s;
-        return 1;
+        return １;
     }
     else
     {
-        p=Get_LinkList1(*L, i-1);
+        p=Get_LinkList1(*L, i-１);
         s=malloc(sizeof(LNode));
         s->data=x;
         s->next=p->next;
         p->next=s;
-        return 1;
+        return １;
     }
 }
 
@@ -627,7 +627,7 @@ int Insert_LinkList2(LinkList L, int i, int x)
     LNode *p, *s;
     int length;
     length = Length_LinkList2(L);
-    if(i<1||i>length+1)
+    if(i<1||i>length+１)
         return 0;
     if(i==1)
     {
@@ -635,16 +635,16 @@ int Insert_LinkList2(LinkList L, int i, int x)
         s->data=x;
         s->next=L->next;
         L->next=s;
-        return 1;
+        return １;
     }
     else
     {
-        p=Get_LinkList2(L, i-1);
+        p=Get_LinkList2(L, i-１);
         s=malloc(sizeof(LNode));
         s->data=x;
         s->next=p->next;
         p->next=s;
-        return 1;
+        return １;
     }
 }
 
@@ -652,19 +652,19 @@ int Insert_LinkList2(LinkList L, int i, int x)
 int Delete_LinkList1(LinkList *L, int i)
 {
     LinkList p, s;
-    p=Get_LinkList1(*L, i-1);
+    p=Get_LinkList1(*L, i-１);
     if(i==1&&*L)
     {
         LinkList q;
         q=*L;
         *L=(*L)->next;
         free(q);
-        return 1;
+        return １;
     }
     if(p==NULL)
     {
-        printf("第i-1个结点不存在\n");
-        return -1;
+        printf("第i-１个结点不存在\n");
+        return -１;
     }
     else if(p->next==NULL)
     {
@@ -676,7 +676,7 @@ int Delete_LinkList1(LinkList *L, int i)
         s=p->next;
         p->next=s->next;
         free(s);
-        return 1;
+        return １;
     }
 }
 
@@ -692,11 +692,11 @@ int Delete_LinkList2(LinkList L, int i)
     }
     else
     {
-        p=Get_LinkList2(L, i-1);
+        p=Get_LinkList2(L, i-１);
         if(!p)
         {
-            printf("第i-1个结点不存在\n");
-            return -1;
+            printf("第i-１个结点不存在\n");
+            return -１;
         }
         else if(!p->next)
         {
@@ -708,10 +708,10 @@ int Delete_LinkList2(LinkList L, int i)
             s=p->next;
             p->next=s->next;
             free(s);
-            return 1;
+            return １;
         }
     }
-    return 1;
+    return １;
 }
 
 //带头结点单链表去重算法
@@ -746,7 +746,7 @@ int main()
     LinkList L;
     L = Create_LinkList4();
     Print_LinkList2(L);
-    Delete_LinkList2(L, 4);
+    Delete_LinkList2(L, ４);
     printf("\n");
     Print_LinkList2(L);
     return 0;
@@ -772,7 +772,7 @@ typedef struct cLNode
     struct cLNode *next;
 } CLNode, *CLinkList;
 
-//带头节点循环单链表建立算法（头部插入）
+//带头结点循环单链表建立算法（头部插入）
 CLinkList Create_CLinkList1()
 {
     CLinkList L;
@@ -821,7 +821,7 @@ void Print_CLinkList(CLinkList L)
 {
     CLNode *p;
     p=L->next;
-    while(1)
+    while(１)
     {
         if(p->next==L->next)
         {
@@ -961,7 +961,7 @@ int main()
 ```C
 #include<stdio.h>
 #include<stdlib.h>
-#define MAXSIZE 100
+#define MAXSIZE １00
 
 typedef int datatype;
 typedef struct
@@ -974,24 +974,24 @@ SeqStack * Init_SeqStack()
 {
     SeqStack *s;
     s=malloc(sizeof(SeqStack));
-    s->top=-1;
+    s->top=-１;
     return s;
 }
 
 int Empty_SeqStack(SeqStack *s)
 {
-    if(s->top==-1)
-        return 1;
+    if(s->top==-１)
+        return １;
     return 0;
 }
 
 int Push_SeqStack(SeqStack *s, datatype x)
 {
-    if(s->top==MAXSIZE-1)
+    if(s->top==MAXSIZE-１)
         return 0;
     s->top++;
     s->data[s->top]=x;
-    return 1;
+    return １;
 }
 
 int Pop_SeqStack(SeqStack *s)
@@ -1016,9 +1016,9 @@ int main()
     SeqStack *s;
     int i,j,k;
     s=Init_SeqStack();
-    Push_SeqStack(s, 1);
-    Push_SeqStack(s ,2);
-    Push_SeqStack(s, 3);
+    Push_SeqStack(s, １);
+    Push_SeqStack(s ,２);
+    Push_SeqStack(s, ３);
     i=Pop_SeqStack(s);
     j=Pop_SeqStack(s);
     k=Pop_SeqStack(s);
@@ -1029,7 +1029,7 @@ int main()
 
 链栈
 
-用链式存储结构实现的栈称为链栈。通常链栈用单链表表示，因为其节点结构与单链表的结点结构相同。
+用链式存储结构实现的栈称为链栈。通常链栈用单链表表示，因为其结点结构与单链表的结点结构相同。
 
 ```C
 #include<stdio.h>
@@ -1050,7 +1050,7 @@ LinkStack Init_LinkStack()
 int Empty_LinkStack(LinkStack top)
 {
     if(top==NULL)
-        return 1;
+        return １;
     return 0;
 }
 
@@ -1081,9 +1081,9 @@ int main()
     LinkStack top;
     int i, j ,k;
     top=Init_LinkStack();
-    top=Push_LinkStack(top, 1);
-    top=Push_LinkStack(top, 2);
-    top=Push_LinkStack(top, 3);
+    top=Push_LinkStack(top, １);
+    top=Push_LinkStack(top, ２);
+    top=Push_LinkStack(top, ３);
     top=Pop_LinkStack(top, &i);
     top=Pop_LinkStack(top, &j);
     top=Pop_LinkStack(top, &k);
@@ -1092,11 +1092,332 @@ int main()
 }
 ```
 
-### 队列
+## 队列
 
 #### 1.队列的定义
 
 队列是一种“先进先出”（First-In-First-Out）的数据结构。插入在表一端进行，而删除在表的另一端进行，这种数据结构被称为队列。队尾是允许插入的一端，队头是允许删除的一端。
 
 #### 顺序队
+
+```C
+#include<stdio.h>
+#include<stdlib.h>
+#define MAXSIZE １00
+
+typedef int datatype;
+typedef struct
+{
+    datatype data[MAXSIZE];
+    int front, rear;
+    int num;
+} SeQueue;
+
+SeQueue * Init_SeQueue()
+{
+    SeQueue *q;
+    q=malloc(sizeof(SeQueue));
+    q->front=q->rear=-１;
+    q->num=0;
+    return q;
+}
+
+int In_SeQueue(SeQueue *q, datatype x)
+{
+    if(q->num==MAXSIZE)
+    {
+        printf("队列已满");
+        return -１;
+    }
+    q->rear=(q->rear+１)%MAXSIZE;
+    q->data[q->rear]=x;
+    q->num++;
+    return １;
+}
+
+int Out_SeQueue(SeQueue *q, datatype *x)
+{
+    if(q->num==0)
+    {
+        printf("队列为空");
+        return -１;
+    }
+    q->front=(q->front+１)%MAXSIZE;
+    *x=q->data[q->front];
+    q->num--;
+    return １;
+}
+
+int Empty_SeQueue(SeQueue *q)
+{
+    if(q->num==0)
+        return １;
+    return 0;
+}
+
+int main()
+{
+    SeQueue *q;
+    int i, j;
+    q=Init_SeQueue();
+    printf("队列是否为空：%d\n", Empty_SeQueue(q));
+    In_SeQueue(q, １);
+    In_SeQueue(q, ２);
+    Out_SeQueue(q, &i);
+    Out_SeQueue(q, &j);
+    printf("出队元素：%d %d", i, j);
+    return 0;
+}
+```
+
+#### 链队列
+
+```C
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef int datatype;
+typedef struct node
+{
+    datatype data;
+    struct node *next;
+} QNode;
+
+typedef struct
+{
+    QNode *front, *rear;
+} LQueue;
+
+LQueue *Init_LQueue()
+{
+    LQueue *q;
+    QNode *p;
+    q=malloc(sizeof(LQueue));
+    p=malloc(sizeof(QNode));
+    p->next=NULL;
+    q->front=p;
+    q->rear=p;
+    return q;
+}
+
+void In_LQueue(LQueue *q, datatype x)
+{
+    QNode *p;
+    p=malloc(sizeof(QNode));
+    p->data=x;
+    p->next=NULL;
+    q->rear->next=p;
+    q->rear=p;
+}
+
+int Empty_LQueue(LQueue *q)
+{
+    if(q->front==q->rear)
+        return １;
+    return 0;
+}
+
+int Out_LQueue(LQueue *q, datatype *x)
+{
+    QNode *p;
+    if(Empty_LQueue(q))
+    {
+        printf("队列为空\n");
+        return 0;
+    }
+    p=q->front->next;
+    q->front->next=p->next;
+    *x=p->data;
+    free(p);
+    if(q->front->next==NULL)
+        q->rear=q->front;
+    return １;
+}
+
+int main()
+{
+    LQueue *p;
+    int i, j;
+    p=Init_LQueue();
+    printf("队列是否为空%d\n", Empty_LQueue(p));
+    In_LQueue(p, １);
+    In_LQueue(p, ２);
+    Out_LQueue(p, &i);
+    printf("%d %d", i);
+    printf("\n队列是否为空%d", Empty_LQueue(p));
+    return 0;
+}
+```
+
+## 串和数组
+
+串（即字符串）也是一种特殊的线性表，其特殊性在于数据元素仅由一个个字符组成。作为一种基本数据类型，字符在计算机信息处理中意义非同一般，计算机非数值处理的对象经常是字符串数据，如在汇编和高级语言的汇编程序中，源程序和目标程序都是字符串数据；在事务处理程序中，顾客的姓名、地址、货物的产地、名称等，一般也是作为字符串处理的。另外，串还具有自身的特性，常常把一个串作为一个整体来处理，因此，把串作为独立结构的概念加以研究是非常必要的。事实上，几乎所有的程序设计语言都能支持串的存储和串的基本运算，在实际应用中一般也都直接引用。
+
+数组可视为线性表的推广，其特点是表中数据元素仍然是一个表。当然，从本质上看，维数大于1的数组中数据元素之间不再是简单的一对一关系，因此，严格地说多维数组是非线性的。然而，由于数组中数据元素类型的一致性和其内部结构上的同一性，在实际处理数组时可以借助线性表的方法来实现数组及其运算。
+
+数组（Array）是一种数据结构，高级语言一般都支持数组这种数据类型。数组作为一种数据结构，其特点是结构中的元素本身可以是具有某种结构的数据，但属于统一数据类型。从逻辑结构上，可以把数组看作一般线性表的扩充。
+
+```C
+//稀疏矩阵的建立
+#include<stdio.h>
+#include<stdlib.h>
+#define MAXSIZE １00
+
+typedef int datatype;
+typedef struct
+{
+    int i, j;/*非零元素的行，列*/
+    datatype v;/*非零元素的值*/
+} SPNode;
+typedef struct
+{
+    int mu, nu, tu;/*矩阵的行，列及非零元素的个数*/
+    SPNode datatype[MAXSIZE];/*三元组表*/
+} SPMatrix;
+
+SPMatrix Create_SPMatrix()
+{
+    int i, j;
+    int x;
+    SPMatrix L;
+    int count=1;
+    scanf("%d", &L.mu);//输入行
+    scanf("%d", &L.nu);//输入列
+    scanf("%d", &L.tu);//输入非零元素的个数
+    for(i=1;i<=L.mu;i++)
+        for(j=1;j<=L.nu;j++)
+        {
+            scanf("%d", &x);
+            if(x!=0)
+            {
+                L.datatype[count].i=i;
+                L.datatype[count].j=j;
+                L.datatype[count].v=x;
+                count++;
+            }
+        }
+    return L;
+}
+
+int main()
+{
+    SPMatrix L;
+    L=Create_SPMatrix();
+    Print(L);
+    printf("\n");
+    L=TransM1(L);
+    Print(L);
+    return 0;
+}
+```
+
+## 树
+
+线性结构中结点具有唯一前趋和唯一后继的关系，而非线性结构中结点之间的关系不再具有这种唯一性。其中，树形结构中结点间的关系是前趋唯一而后继不唯一，即元素之间是一对多的关系；在图结构中结点之间的关系是前趋、后继均不唯一，因此也就无所谓前趋、后继了。直观地看，树形结构既有分支关系，又具有层次关系，它非常类似于自然界中的树。树形结构在现实世界中广泛存在，如家谱、各单位的行政机构等都可用树来表示。树在计算机领域中也有着广泛的应用，DOS和Windows操作系统中对磁盘文件的管理就采用了树形目录结构；在数据中，树形结构也是数据的重要组织形式之一。
+
+#### 树的定义
+
+树（Tree）是n（n≥0）个结点的优先集合。当n=0时，称这棵树为空树；当n>0时，该集合满足以下条件：
+
+（1）有且只有一个特殊的结点称为树的根（root），根结点没有直接前趋结点，但有零个或多个直接后继结点（这里的前趋、后继暂时沿用线性表中的概念，在树中，前趋、后继其实是另外的术语）。
+
+（2）除根结点之外的其余n-1个结点被分成m（m>0）个互不相交的集合T<sub>1</sub>，T<sub>2</sub>，.....，T<sub>m</sub>，其中每一个集合T<sub>i</sub>（1≤i≤m）本身又是一棵树。树T<sub>1</sub>，T<sub>2</sub>，.....T<sub>m</sub>称为根结点的子树。
+
+相关术语：
+
+> （1）结点：包含一个数据元素及若干指向其他结点的分支信息的数据结构。
+>
+> （2）结点的度：结点所拥有的子树的个数称为该结点的度。
+>
+> （3）叶子结点：度为0的结点称为叶子结点，或者称为终端结点。
+>
+> （4）分支结点：度不为0的结点称为分支结点，或者称为非终端结点。一棵树的结点除叶子结点外，其余的结点都是分支结点。
+>
+> （5）孩子结点、双亲结点、兄弟结点：树中一个结点的子树的根结点称为这个结点的孩子结点，这个结点称为它孩子结点的双亲结点。具有用一个双亲结点的孩子结点称为兄弟结点。
+>
+> （6）路径、路径长度：设n<sub>1</sub>, n<sub>2</sub>, …, n<sub>k</sub>为一棵树的结点序列，若结点n<sub>i</sub>是n<sub>i+1</sub>的双亲结点（1≤i <k），则把n<sub>1</sub>, n<sub>2</sub>, …, n<sub>k</sub>称为一条由n<sub>1</sub>至n<sub>k</sub>的路径。这条路径的长度是k-1。
+>
+> （7）祖先、子孙：在树中，如果有一条路径从结点M到结点N，那么M就成为N的祖先，而N称为M的子孙。
+>
+> （8）结点的层次：规定树的根结点的层数为1，其余结点的层数的关于它的双亲结点的层数加1。
+>
+> （9）树的深度（高度）：定义一棵树的根结点层次为1，其它结点的层次是父节点层次加1。一颗树中所有的结点层次的最大值成为这棵树的深度。
+>
+> （10）树的度：树中的所有结点的度的度的最大值称为该树的度。
+>
+> （11）有序树和无序树：如果一棵树中结点的各子树从左到右是有次序的，即若交换了某结点各子树的相对位置，则构成不同的树，称这棵树为有序树；反之，则称为无序树。
+>
+> （1２）森林：m（m≥0）棵不相交地树的集合称为森林。自然界中树和森林是不同的概念，但在数据结构中，树和森林只有很小的差别。任何一颗树，删去根结点就变成了森林；反之，给森林增加一个统一的根结点，森林就变成了一棵树。
+
+#### 二叉树的基本概念
+
+二叉树（Binary Tree）是n个结点的有限集合，该集合或者为空，或者由一个称为根（Root）的结点及两个不相交的，被分别称为根结点的左子树和右子树的二叉树组成。当集合为空时，称该二叉树为空二叉树。
+
+一棵二叉树的每个结点只能含有0、1或2个孩子结点，而且其孩子结点有左右之分，位于左边的称为左孩子，位于右边的称为右孩子。显然，二叉树是有序的，若将其左、右孩子颠倒，就成为另一颗不同的二叉树。即使二叉树中的结点只有一棵子树，也要区分它是左子树还是右子树。
+
+###### 二叉树的相关概念
+
+> （1）满二叉树
+>
+> 在一棵二叉树中，如果所有分支结点都存在于左子树和右子树，并且所有叶子结点都在同一层上，这样的一棵二叉树称为满二叉树。
+>
+> （2）完全二叉树
+>
+> 一颗深度为k的有n个结点的二叉树，对树中的结点按从上至下，从左至右的顺序进行编号，如果编号为i（1≤i≤n）的结点与满二叉树中编号为i的结点在二叉树中位置相同，则这棵二叉树称为完全二叉树。完全二叉树的特点是：叶子结点只能出现在最下层和次下层，且最下层的叶子结点集中在树的左部。显然，一颗满二叉树必定是一颗完全二叉树。
+
+###### 二叉树的主要性质
+
+>（1）一颗非空二叉树的第i层最多有2<sup>i-1</sup>个结点（i≥1）。
+>
+>（2）一颗深度为k的二叉树中，最多具有2<sup>k-1</sup>个结点。
+>
+>（3）对于一颗非空的二叉树，如果叶子结点树为n<sub>0</sub>，度数为2的结点数为n<sub>2</sub>，则有n<sub>0</sub>=n<sub>2</sub>+1。
+>
+>（4）具有n个结点的完全二叉树的深度不超过log<sub>2</sub>+1。
+
+#### 二叉树的存储结构与基本操作
+
+##### 1.二叉树的顺序存储结构
+
+二叉树的顺序存储，就是用一组连续的存储单元存放二叉树中的结点。一般按照二叉树结点从上至下，从左至右的顺序存储。这样结点在存储位置上的前趋后继关系并不一定就是它们在逻辑上的邻接关系，然而只有通过一些方法确定某结点在逻辑上的双亲结点和孩子结点，这种存储才有意义。因此，依据二叉树的性质，完全二叉树和满二叉树采用顺序存储比较合适，树中结点的序号可以唯一地反映出结点之间的逻辑关系，这样既能最大限度的节省存储空间，又可以利用数组元素的下标值确定结点在二叉树中的为位置及结点之间的关系。
+
+##### 2.二叉树的链式存储结构与遍历
+
+二叉树的遍历有三种方式：
+
+> （1）DLR（前序遍历或先序遍历）
+>
+> （2）LDR（中序遍历）
+>
+> （3）LRD（后序遍历）
+
+###### 1.先序遍历
+
+先序遍历（DLR）的递归过程为：若二叉树为空，便利结束。否则：
+
+（1）访问根结点；
+
+（2）先序遍历根结点的左子树；
+
+（3）先序遍历根结点的右子树。
+
+###### 2.中序遍历
+
+中序遍历（LDR）的递归过程为：若二叉树为空，遍历结束。否则：
+
+（1）中序遍历根结点的左子树；
+
+（2）访问根结点；
+
+（3）中序遍历根结点的右子树。
+
+###### 3.后序遍历
+
+后序遍历（LRD）的递归过程为：若二叉树为空，遍历结束。否则：
+
+（1）后序遍历根结点的左子树；
+
+（2）后序遍历根结点的右子树；
+
+（3）访问根结点。
 

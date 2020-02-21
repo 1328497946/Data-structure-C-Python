@@ -1103,7 +1103,7 @@ int main()
 ```C
 #include<stdio.h>
 #include<stdlib.h>
-#define MAXSIZE １00
+#define MAXSIZE 100
 
 typedef int datatype;
 typedef struct
@@ -1117,7 +1117,7 @@ SeQueue * Init_SeQueue()
 {
     SeQueue *q;
     q=malloc(sizeof(SeQueue));
-    q->front=q->rear=-１;
+    q->front=q->rear=-1;
     q->num=0;
     return q;
 }
@@ -1127,12 +1127,12 @@ int In_SeQueue(SeQueue *q, datatype x)
     if(q->num==MAXSIZE)
     {
         printf("队列已满");
-        return -１;
+        return -1;
     }
-    q->rear=(q->rear+１)%MAXSIZE;
+    q->rear=(q->rear+1)%MAXSIZE;
     q->data[q->rear]=x;
     q->num++;
-    return １;
+    return 1;
 }
 
 int Out_SeQueue(SeQueue *q, datatype *x)
@@ -1140,18 +1140,18 @@ int Out_SeQueue(SeQueue *q, datatype *x)
     if(q->num==0)
     {
         printf("队列为空");
-        return -１;
+        return -1;
     }
     q->front=(q->front+１)%MAXSIZE;
     *x=q->data[q->front];
     q->num--;
-    return １;
+    return 1;
 }
 
 int Empty_SeQueue(SeQueue *q)
 {
     if(q->num==0)
-        return １;
+        return 1;
     return 0;
 }
 
@@ -1161,8 +1161,8 @@ int main()
     int i, j;
     q=Init_SeQueue();
     printf("队列是否为空：%d\n", Empty_SeQueue(q));
-    In_SeQueue(q, １);
-    In_SeQueue(q, ２);
+    In_SeQueue(q, 1);
+    In_SeQueue(q, 2);
     Out_SeQueue(q, &i);
     Out_SeQueue(q, &j);
     printf("出队元素：%d %d", i, j);
@@ -1421,3 +1421,602 @@ int main()
 
 （3）访问根结点。
 
+```C
+#include<stdio.h>
+#include<stdlib.h>
+
+typedef struct BiTNode
+{
+    int data;
+    struct BiTNode *lchild, *rchild;
+} BiTNode, *BiTree;
+
+//先序序列建立二叉树
+void Create_BiTree(BiTree *L)
+{
+    int x;
+    scanf("%d", &x);
+    if(x==0)
+        *L=NULL;
+    else
+    {
+        *L=(BiTree)malloc(sizeof(BiTNode));
+        (*L)->data=x;
+        Create_BiTree(&(*L)->lchild);
+        Create_BiTree(&(*L)->rchild);
+    }
+}
+
+//先序遍历
+void Print_BiTree(BiTree L)
+{
+    if(L)
+    {
+        printf("%d ",L->data);
+        Print_BiTree(L->lchild);
+        Print_BiTree(L->rchild);
+    }
+}
+
+//求二叉树的深度算法
+int Length_BiTree(BiTree L)
+{
+    int lh, rh, h;
+    if(L==NULL)
+        h=0;
+    else
+    {
+        lh=Length_BiTree(L->lchild);
+        rh=Length_BiTree(L->rchild);
+        h=lh>rh?lh+1:rh+1;
+    }
+    return h;
+}
+
+//求二叉树的叶子结点算法
+int CountLeaf_BiTree(BiTree L)
+{
+    if(L==NULL)
+        return 0;
+    else if(L->lchild==NULL&&L->rchild==NULL)
+        return 1;
+    return CountLeaf_BiTree(L->lchild) + CountLeaf_BiTree(L->rchild);
+}
+
+int main()
+{
+    BiTree L;
+    Create_BiTree(&L);
+    printf("叶子结点%d", CountLeaf_BiTree(L));
+    return 0;
+}
+```
+
+#### 树与森林
+
+##### 1.树的存储
+
+在计算机中，树的存储有多种方式，及可以采用顺序存储结构，但无论采用存储方式，都要求存储结构不但能存储各结点本身的数据信息，还要能唯一地反映树中各结点之间地逻辑关系。
+
+###### 双亲表示法
+
+由树地定义可以知道，树中的每个结点（除根结点外）都有唯一的一个双亲结点，根据这一特性，可用一组连续的存储空间（一维数组）存储树中的各个结点，数组中的一个元素表示树中的一个结点，数组中的一个元素表示树中的一个结点，数组元素为结构体类型，其中包括结点本身的信息及该结点的双亲结点在数组中的序号，树的这种存储方法称为双亲表示法。
+
+###### 孩子表示法
+
+其主体是一个与结点个数一样大小的一维数组，数组的每一个元素都由两个域组成；一个域用来存放结点本身的信息；另一个用来存放指针，该指针指向有该结点孩子组成的单链表的首位置。单链表的基本结构也由两个域组成；一个存放孩子结点在一维数组中的序号；另一个是指针域，指向下一个孩子。
+
+###### 孩子兄弟表示法
+
+这是一种常用的存储结构，其方法是：在树中，每个结点除其信息域外，再增加两个分别指向该结点的第一个孩子节点和右兄弟结点的指针。
+
+##### 2.树的遍历
+
+- 先根遍历
+- 后根遍历
+
+##### 3.森林的遍历
+
+森林的遍历有前序遍历和中序遍历两种方式。
+
+###### 1.前序遍历
+
+访问森林中第一棵树的根结点，前序遍历第一棵树的根结点的子树，前序遍历去掉第一棵树后的子森林。
+
+###### 2.中序遍历
+
+中序遍历第一棵树的根结点的子树，访问森林中第一棵树的根结点，中序遍历去掉第一棵树后的子森林。
+
+#### 最优二叉树-----哈夫曼树
+
+最优二叉树也称哈夫曼树（Huffman）树，是指对于一组带有确定权值的叶子结点，构造的具有最小带权路径长度的二叉树。权值是值一个特定节点相关的数值。
+
+## 图
+
+### 1.图的定义和术语
+
+#### 图的定义
+
+图（Graph）是由非空的顶点集合和一个描述顶点之间的关系——边（或者弧）和集合组成的。
+
+#### 图的相关术语
+
+1. 无向图
+
+   在一个图中，如果任意两个顶点的偶对（v<sub>i</sub>，v<sub>j</sub>）∈E是无序的，即顶点之间的连线是没有方向的，则称该图为无向图。
+
+2. 有向图
+
+   在一个图中，如果任意两个顶点构成的偶对<v<sub>i</sub>，v<sub>j</sub>>∈E是有序的，即顶点之间的连线时有方向的，则称该图为有向图。
+
+3. 顶点、边、弧、弧头、弧尾
+
+   在图中，数据元素v<sub>i</sub>称为顶点（Vertex）；（v<sub>i</sub>，v<sub>j</sub>）表示再顶点v<sub>i</sub>和v<sub>j</sub>之间有一条直接连线。如果是在无向图中，则称这条线为边；如果是在有向图中，一般称这条线为弧。边用顶点的无序偶对（v<sub>i</sub>，v<sub>j</sub>）来表示，称顶点v<sub>i</sub>和顶点v<sub>j</sub>互为邻接点，边（v<sub>i</sub>，v<sub>j</sub>）依附于顶点v<sub>i</sub>与顶点v<sub>j</sub>；弧用顶点的有序偶对<v<sub>i</sub>，v<sub>j</sub>>来表示，有序偶对的第一个结点v<sub>i</sub>被称为始点（或弧尾），在图中就是不带箭头的一段；有序偶对的第二个结点v<sub>j</sub>被称为终点（或弧头），在图中就是带箭头的一端。
+
+4. 无向完全图
+
+   在一个无向图中，如果任意两个顶点都有一条直接边相连，则称该图为无向完全图。可以证明，在一个含有n个顶点的无向完全图中，有n(n-1)/2条边。
+
+5. 有向完全图
+
+   在一个有向图中，如果任意两个顶点之间，如果任意两个顶点之间都有方向互为相反的两条弧相连接，则称该图为有向完全图。在一个含有n个顶点的有向完全图中，有n(n-1)条边。
+
+6. 顶点的度、入度、出度
+
+   顶点的度（Degree）是指依附于某顶点v的边数，通常记为TD(v)。在有向图中，要区别顶点的入度与出度的概念。顶点v的入度是指以顶点v为终点的弧的数目，记为ID(v)；顶点v出度是指以顶点v为始点的弧的数目，记为OD(v)。有TD(v)=ID(v)+OD(v)。
+
+7. 边的权、网
+
+   与边有关的数据信息称为权（Weight）。在实际应用中，权值可以有某种含义。例如，在一个反应城市交通线路的图中，边上的权值可以表示该条线路的长度或等级；对于一个电子线路图，边上的权值可以表示两个端点之间的电阻、电流或电压值；对于反映工程进度的图而言，边上的权值可以表示从前一个工程到后一个工程所需要的时间或其他代价等。边上带权的图称为网或网络（Network）。
+
+8. 路径、路径长度
+
+   顶点v<sub>p</sub>到顶点v<sub>q</sub>之间的路径（Path）是指顶点序列v<sub>p</sub>，v<sub>i1</sub>，v<sub>i2</sub>，...，v<sub>im</sub>，v<sub>q</sub>。其中，（v<sub>p</sub>，v<sub>i1</sub>），（v<sub>i1</sub>，v<sub>i2</sub>），...，（v<sub>im</sub>，v<sub>q</sub>）分别为图中的边。路径上边的数目称为路径长度。
+
+9. 简单路径、回环、简单回路
+
+   序列中顶点不重复出现的路径称为简单路径。出第一个顶点与最后一个顶点之外，其他顶点不重复出现的回路称为简单回路，或者简单环。
+
+10. 子图
+
+    对于图G=(V，E)，G'=(V，E)，若存在V'是V的子集、E'是E的子集，则称图G'是G的一个子图。
+
+11. 连通、连通图、连通分量
+
+    在无向图中，如果从一个顶点v<sub>i</sub>到另一个顶点v<sub>j</sub>(i≠j)存在的路径，则称顶点v<sub>i</sub>和v<sub>j</sub>是连通的。如果图中任意两个顶点都是连通的，则称该图是连通图。无向图的极大连通子图称为连通分量，极大连通子图是指在保证连通与子图的条件下，包含原图中所有的顶点与边。
+
+12. 强连通图、强连通分量
+
+    对于有向图来说，若图中任意一对顶点v<sub>i</sub>和v<sub>j</sub>(i≠j)均存在从一个顶点v<sub>i</sub>到另一个顶点v<sub>j</sub>和从v<sub>j</sub>到v<sub>i</sub>的路径，则称该有向图是强连通图。有向图的极大强连通子图称为强连通分量，极大强连通子图的含义同上。
+
+13. 生成树
+
+    所谓连通图G的生成树，是G的包含其全部n个顶点的一个极小连通子图，是所谓极小连通子图是指包含所有顶点且保证连通的前提下尽可能少地包原图中地边。生成树必定包含且仅包含连通图G的n-1条边。在生成树中添加任意一条属于原图中的边必定会产生回路，因为新添加的边使其所依附的两个顶点之间有了第二条路经。若生成树中减少任意一条边，则必然称为非连通的。
+
+14. 生成森林
+
+    在非连通图中，由每个连通分量都可得到一个极小连通子图，即一棵生成树。这些连通分量的生成树就组成了一个非连通图的生成深林。
+
+### 2.图的存储结构
+
+#### 邻接矩阵
+
+邻接矩阵（Adjacency Matrix）的存储结构，就是用一维数组存储图中顶点的信息，用矩阵表示图中各顶点之间的邻接关系。
+
+邻接矩阵存储方法具有的特点
+
+1. 无向图的邻接矩阵一定是一个对称矩阵。因此，在具体存放邻接矩阵只需存放上（或下）三角矩阵的元素即可。
+2. 对于无向图，邻接矩阵的第i行（或第j列）非零元素（或非∞元素）的个数正好是第i个顶点的度数TD(v<sub>i</sub>)。
+3. 对于有向图，邻接矩阵的第i行（或第j列）非零元素（或非∞元素）的个数正好是第i个顶点的出度OD(v<sub>i</sub>)（或入度ID(v<sub>j</sub>)。
+4. 用邻接矩阵方法存储图，很容易确定图中任意两个顶点之间是否有边相连；但是，要确定图中有多少条边，则必须按行、按列对每个元素进行检测，所花费的时间代价很大。这是用邻接矩阵存储图的局限性。
+
+在实际应用邻接矩阵存储图时，除了用一个二维数组存储用于表示顶点间相邻关系的邻接矩阵外，还需用一个一维数组来存储顶点信息，另外，还有图的顶点数和边数。
+
+```C
+#include<stdio.h>
+#include<stdlib.h>
+#define MaxVertexNum 100
+typedef char VertexType;
+typedef int EdgeType;
+typedef struct
+{
+	VertexType vexs[MaxVertexNum];
+	EdgeType edges[MaxVertexNum][MaxVertexNum];
+	int n, e;
+} MGraph;
+
+void CreateMGraph(MGraph *G)
+{
+	int i, j, k;
+	printf("请输入顶点数和边数\n");
+	scanf_s("%d %d", &(G->n), &(G->e));
+	printf("请输入顶点信息\n");
+	for (i = 0; i < G->n; i++)
+		scanf_s("\n%c", &(G->vexs[i]), 1);
+	for (i = 0; i < G->n; i++)
+		for (j = 0; j < G->n; j++)
+			G->edges[i][j] = 0;
+	printf("请输入每条边对应的两个顶点的序号\n");
+	for (k = 0; k < G->e; k++)
+	{
+		scanf_s("%d %d", &i, &j);
+		G->edges[i-1][j-1] = 1;
+	}
+}
+
+int main()
+{
+	MGraph L;
+	CreateMGraph(&L);
+	return 0;
+}
+```
+
+#### 邻接表
+
+邻接表（Adjacency List）是图的一种顺序存储与链式存储结合的存储方法。邻接表表示类似于树的孩子链表表示法。就是对于图G中的每个顶点v<sub>i</sub>，将所有邻接于v<sub>i</sub>的顶点v<sub>j</sub>的顶点v<sub>j</sub>链成一个单链表，这个单链表就称为顶点v<sub>i</sub>的邻接表，再将所有顶点的邻接表表头放到数组中，就构成了图的邻接表。
+
+```C
+#include<stdio.h>
+#include<stdlib.h>
+//最大顶点数为100
+#define MaxVerNuM 100
+typedef char VertexType;
+typedef struct node
+{
+	//边表结点
+	int adjvex;
+	//指向下一个邻接点的指针域
+	struct node *next;
+} EdgeNode;
+
+typedef struct vnode
+{
+	VertexType vertex;
+	EdgeNode * firstedge;
+} VertexNode;
+typedef VertexNode AdjList[MaxVerNuM];
+
+typedef struct
+{
+	AdjList adjlist;
+	int n, e;
+} ALGraph;
+
+int main()
+{
+
+	return 0;
+}
+```
+
+### 3.图的遍历
+
+图的遍历是指从图中的任意顶点出发，对图中的所有顶点访问一次且只访问一次。图的遍历操作和树的遍历操作功能相似。图的遍历是图的一种基本操作，图的许多其他操作都是建立在遍历的基础上的。
+
+#### 深度优先搜索
+
+深度优先搜索（Depth-First Search，DFS）类似于树的先根遍历，是树的先跟遍历的推广。假设初始状态是图中所有顶点未曾访问，则深度优先搜索可从图中某个顶点v出发， 访问此顶点，然后依次从v的为访问的邻接点出发深度优先遍历图，直至图中所有和v有路径相通的顶点都被访问到；若此时图中尚有顶点未被访问，则另选图中一个未曾被访问的顶点作为起始点，重复上述过程，直至图中所有顶点都被访问到为止。
+
+```C
+#include<stdio.h>
+#include<stdlib.h>
+//最大顶点数为100
+#define MaxVerNuM 100
+typedef char VertexType;
+typedef struct node
+{
+	//边表结点
+	int adjvex;
+	//指向下一个邻接点的指针域
+	struct node *next;
+} EdgeNode;
+
+typedef struct vnode
+{
+	VertexType vertex;
+	EdgeNode * firstedge;
+} VertexNode;
+typedef VertexNode AdjList[MaxVerNuM];
+
+typedef struct
+{
+	AdjList adjlist;
+	//输入顶点数和边数
+	int n, e;
+} ALGraph;
+
+
+ALGraph * Create_ALGraph()
+{
+	ALGraph *L;
+	EdgeNode *q, *p;
+	int i, j, k;
+	L = (ALGraph *)malloc(sizeof(ALGraph));
+	printf("请输入顶点数和边数\n");
+	scanf_s("%d %d", &L->n, &L->e);
+	for (i = 0; i < L->n; i++)
+	{
+		scanf_s("\n%c", &(L->adjlist[i].vertex), 1);
+		L->adjlist[i].firstedge = NULL;
+	}
+	printf("请输如边的两个顶点\n");
+	for (i = 0; i < L->e; i++)
+	{
+		scanf_s("%d %d", &j, &k);
+		q = (EdgeNode *)malloc(sizeof(EdgeNode));
+		q->adjvex = k-1;
+		q->next = L->adjlist[j-1].firstedge;
+		L->adjlist[j-1].firstedge = q;
+		p = (EdgeNode *)malloc(sizeof(EdgeNode));
+		p->adjvex = j-1;
+		p->next = L->adjlist[k-1].firstedge;
+		L->adjlist[k-1].firstedge = p;
+
+	}
+	return L;
+}
+
+void DFSAL(ALGraph *L, int i, int *l)
+{
+	EdgeNode *p;
+	printf("访问结点%c\n", L->adjlist[i].vertex);
+	l[i] = 1;
+	p = L->adjlist[i].firstedge;
+	while (p)
+	{
+		if (!l[p->adjvex])
+			DFSAL(L, p->adjvex, l);
+		p = p->next;
+	}
+}
+
+void DFSTraverseAl(ALGraph *L)
+{
+	int i;
+	int visited[MaxVerNuM] = {0};
+	for (i = 0; i < L->n; i++)
+	{
+		if (!visited[i])
+			DFSAL(L, i, visited);
+	}
+}
+
+
+int main()
+{
+	ALGraph *L;
+	int i;
+	EdgeNode *q;
+	L = Create_ALGraph();
+	for (i = 0; i < L->n; i++)
+	{
+		printf("元素%c \n", L->adjlist[i].vertex);
+		q = L->adjlist[i].firstedge;
+		while (q != NULL)
+		{
+			printf("%d ", q->adjvex);
+			q = q->next;
+		}
+		printf("\n");
+	}
+	DFSTraverseAl(L);
+	return 0;
+}
+```
+
+#### 广度优先搜索
+
+广度优先搜索（Breadth-Frist Search，BFS）类似于数的按层次遍历的过程。
+
+假设从图中某顶点v出发，在访问了v之后一次访问v的各个未曾访问过的邻接点，然后分别从这些邻接点出发依次访问它们的邻接点，并使“先被访问的顶点的邻接点”先于“后被访问的顶点的邻接点”被访问，直至图中所有已被访问的顶点的邻接点都被访问到。若此时图中尚有顶点未被访问，则另选图中一个未曾被访问的顶点作为起始点，重复上述过程。
+
+```C
+#include<stdio.h>
+#include<stdlib.h>
+//最大顶点数为100
+#define MaxVerNuM 100
+#pragma once
+#define MaxNum 100
+typedef struct
+{
+	int data[MaxNum];
+	int front, rear;
+}Queue;
+
+Queue * Init_Queue()
+{
+	Queue *L;
+	L = (Queue *)malloc(sizeof(Queue));
+	L->front = L->rear = 0;
+	return L;
+}
+
+int Empty_Queue(Queue *L)
+{
+	if (L->front == L->rear)
+		return 1;
+	return 0;
+}
+
+int Push_Queue(Queue *L, int x)
+{
+	if ((L->rear + 1) % MaxNum == L->front)
+	{
+		printf("队列已满\n");
+		return -1;
+	}
+	L->data[L->rear] = x;
+	L->rear = (L->rear + 1) % MaxNum;
+	return 1;
+}
+
+int Out_Queue(Queue *L, int *x)
+{
+	if (Empty_Queue(L))
+		return -1;
+	*x = L->data[L->front];
+	L->front = (L->front + 1) % MaxNum;
+	return 1;
+}
+typedef char VertexType;
+typedef struct node
+{
+	//边表结点
+	int adjvex;
+	//指向下一个邻接点的指针域
+	struct node *next;
+} EdgeNode;
+
+typedef struct vnode
+{
+	VertexType vertex;
+	EdgeNode * firstedge;
+} VertexNode;
+typedef VertexNode AdjList[MaxVerNuM];
+
+typedef struct
+{
+	AdjList adjlist;
+	//输入顶点数和边数
+	int n, e;
+} ALGraph;
+
+ALGraph * Create_ALGraph()
+{
+	ALGraph *L;
+	EdgeNode *q, *p;
+	int i, j, k;
+	L = (ALGraph *)malloc(sizeof(ALGraph));
+	printf("请输入顶点数和边数\n");
+	scanf_s("%d %d", &L->n, &L->e);
+	printf("请输入%d个顶点元素\n", L->n);
+	for (i = 0; i < L->n; i++)
+	{
+		scanf_s("\n%c", &(L->adjlist[i].vertex), 1);
+		L->adjlist[i].firstedge = NULL;
+	}
+	printf("请输如边的两个顶点\n");
+	for (i = 0; i < L->e; i++)
+	{
+		scanf_s("%d %d", &j, &k);
+		q = (EdgeNode *)malloc(sizeof(EdgeNode));
+		q->adjvex = k-1;
+		q->next = L->adjlist[j-1].firstedge;
+		L->adjlist[j-1].firstedge = q;
+		p = (EdgeNode *)malloc(sizeof(EdgeNode));
+		p->adjvex = j-1;
+		p->next = L->adjlist[k-1].firstedge;
+		L->adjlist[k-1].firstedge = p;
+
+	}
+	return L;
+}
+
+void DFSAL(ALGraph *L, int i, int *l)
+{
+	EdgeNode *p;
+	printf("访问结点%c\n", L->adjlist[i].vertex);
+	l[i] = 1;
+	p = L->adjlist[i].firstedge;
+	while (p)
+	{
+		if (!l[p->adjvex])
+			DFSAL(L, p->adjvex, l);
+		p = p->next;
+	}
+}
+
+void DFSTraverseAl(ALGraph *L)
+{
+	int i;
+	int visited[MaxVerNuM] = {0};
+	for (i = 0; i < L->n; i++)
+	{
+		if (!visited[i])
+			DFSAL(L, i, visited);
+	}
+}
+
+int FirstAdjVex(ALGraph *L, int x)
+{
+	if(L->adjlist[x].firstedge)
+		return L->adjlist[x].firstedge->adjvex;
+	return -1;
+}
+
+int NextAdjVex(ALGraph *L, int i, int j)
+{
+	EdgeNode *p;
+	p = L->adjlist[i].firstedge;
+	while (p)
+	{
+		if (p->adjvex == j)
+		{
+			if (p->next)
+				return p->next->adjvex;
+			else
+				return -1;
+		}
+		p = p->next;
+	}
+	return -1;
+}
+
+void BFSTraverse(ALGraph *L)
+{
+	int i, j;
+	Queue *Q;
+	int visited[MaxNum] = { 0 };
+	for (i = 0; i < L->n; i++)
+		visited[i] = 0;
+	Q = Init_Queue();
+	if (L->n < 1)
+		return;
+	i = 0;
+	if (!visited[i])
+	{
+		Push_Queue(Q, i);
+		while (!Empty_Queue(Q))
+		{
+			int x;
+			Out_Queue(Q, &x);
+			if (visited[x])
+				continue;
+			visited[x] = 1;
+			printf("%c", L->adjlist[x].vertex);
+			for (j = FirstAdjVex(L, x); j > -1; j = NextAdjVex(L, x, j))
+				if (!visited[j])
+					Push_Queue(Q, j);
+		}
+	}
+}
+
+int main()
+{
+	ALGraph *L;
+	L = Create_ALGraph();
+	BFSTraverse(L);
+	return 0;
+}
+```
+
+## 查找
+
+### 基本概念和术语
+
+1. 关键码
+
+   关键码（Key）是数据元素（记录）中某个项或组合项的值，可以用它标识一个数据元素（记录）。能唯一确定一个数据元素（记录）的关键码称为住关键码；不能唯一确定一个数据元素（记录）的关键码称为次关键码。表中“学号”可看成住关键码，“姓名”则应视为次关键码，因可能有同名同性的学生 。
+
+2. 查找表
+
+   具有同一类型（属性）的数据元素（记录）组成的集合称为查找表。对查找表经常进行的操作有：查询某个“特定的”数据元素是否在查找表中；检索某个“特定的”数据元素的各种属性；在查找表中插入一个数据元素；从查找表中删除某个数据元素。根据操作的不同，查找表可分为静态查找表和动态查找表两类。
+
+   静态查找表：仅对查找表进行两种所谓的“查找”操作，而不能被改变的表；
+
+   动态查找表：对查找表进行“查找”操作外，可能还要向表中插入数据元素或删除表中数据元素，因而动态查找表在查找过程中可以被改变。
+
+3. 查找
+
+   按给定的某个值kx，在查找表中查找关键码为给定值kx的数据元素（记录）。关键码是主关键码时：由于主关键码唯一，所以查找结果也是唯一的，一旦找到，

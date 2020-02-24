@@ -191,7 +191,7 @@
 C语言实现
 #include<stdio.h>
 #include<stdlib.h>
-#define MAXSIZE １00
+#define MAXSIZE 100
 
 typedef struct
 {
@@ -204,46 +204,46 @@ SeqList * init_SeqList()
 {
     SeqList *L;
     L=malloc(sizeof(SeqList));
-    L->last=-１;
+    L->last=-1;
     return L;
 }
 
 int Insert_SeqList(SeqList *L, int i, int x)
 {
     int j;
-    if(L->last==MAXSIZE-１)
+    if(L->last==MAXSIZE-1)
     {
         printf("顺序表已满");
-        return -１;
+        return -1;
     }
-    if(i<1||i>L->last+２)
+    if(i<1||i>L->last+2)
     {
         printf("插入位置错误");
         return 0;
     }
-    for(j=L->last; j>=i-１; j--)
+    for(j=L->last; j>=i-1; j--)
     {
-        L->data[j+１]=L->data[j];
+        L->data[j+1]=L->data[j];
     }
-    L->data[i-１]=x;
+    L->data[i-1]=x;
     L->last++;
-    return １;
+    return 1;
 }
 
 int Delete_SqeList(SeqList *L, int i)
 {
     int j;
-    if(i<1||i>L->last+１)
+    if(i<1||i>L->last+1)
     {
         printf("删除错误，不存在第i个元素");
         return 0;
     }
     for(j=i; j<=L->last; j++)
     {
-        L->data[j-１]=L->data[j];
+        L->data[j-1]=L->data[j];
     }
     L->last--;
-    return １;
+    return 1;
 }
 
 int Location_SeqList(SeqList *L, int x)
@@ -252,7 +252,7 @@ int Location_SeqList(SeqList *L, int x)
     while(i<=L->last&&L->data[i]!=x)
         i++;
     if(i>L->last)
-        return -１;
+        return -1;
     else
         return i;
 }
@@ -268,8 +268,8 @@ void Partition_SeqList(SeqList *L)
         if(L->data[i]<x)
         {
             y=L->data[i];
-            for(j=i-１; j>=0; j--)
-                L->data[j+１]=L->data[j];
+            for(j=i-1; j>=0; j--)
+                L->data[j+1]=L->data[j];
             L->data[0]=y;
         }
     }
@@ -291,7 +291,7 @@ void Merge_SeqList(SeqList A, SeqList B, SeqList *C)
         C->data[k++]=A.data[i++];
     while(j<=B.last)
         C->data[k++]=B.data[j++];
-    C->last=k-１;
+    C->last=k-1;
 }
 
 //打印顺序表
@@ -315,9 +315,9 @@ int main()
     printf("打印当前顺序表：\n");
     Printall_SeqList(L);
     printf("\n");
-    printf("元素５的下标是：%d\n", Location_SeqList(L, ５));
-    Delete_SqeList(L, ４);
-    printf("删除第５个元素之后：\n");
+    printf("元素5的下标是：%d\n", Location_SeqList(L, 5));
+    Delete_SqeList(L, 4);
+    printf("删除第5个元素之后：\n");
     Printall_SeqList(L);
     return 0;
 }
@@ -335,22 +335,22 @@ class DeleteError(Exception):
 
 class SeqList:
     def __init__(self):
-        self.MAXSIZE = １00
+        self.MAXSIZE = 100
         self.data = [None] * self.MAXSIZE
-        self.last = -１
+        self.last = -1
 
     def Insert_SeqList(self, i, x):
         if self.last == self.MAXSIZE:
             raise InsertError("顺序表已满")
-        if i < １ or i > self.last + ２:
+        if i < 1 or i > self.last + 2:
             raise InsertError("插入位置错误")
-        for j in range(self.last, i - １, -１):
-            self.data[j + １] = self.data[j]
-        self.data[i - １] = x
-        self.last += １
+        for j in range(self.last, i - 1, -1):
+            self.data[j + 1] = self.data[j]
+        self.data[i - 1] = x
+        self.last += 1
 
     def Delete_SeqList(self, i):
-        if i < １ or i > self.last + １:
+        if i < 1 or i > self.last + 1:
             raise DeleteError("删除元素的位置错误")
 
     def Location_SeqList(self, x):
@@ -361,15 +361,15 @@ class SeqList:
 
     def Partition_SeqList(self):
         x = self.data[0]
-        for i in range(１, self.last + １):
+        for i in range(1, self.last + 1):
             if self.data[i] < x:
                 y = self.data[i]
-                for j in range(i - １, -１, -１):
-                    self.data[j + １] = self.data[j]
+                for j in range(i - 1, -1, -1):
+                    self.data[j + 1] = self.data[j]
                 self.data[0] = y
 
     def Print_SeqList(self):
-        for i in range(0, self.last + １):
+        for i in range(0, self.last + 1):
             if i != self.last:
                 print(self.data[i], end=", ")
             else:
@@ -378,7 +378,7 @@ class SeqList:
 
 if __name__ == "__main__":
     A = SeqList()
-    for i in range(１, ２0):
+    for i in range(1, 20):
         A.Insert_SeqList(i, i)
     A.Print_SeqList()
 ```
@@ -608,16 +608,16 @@ int Insert_LinkList1(LinkList *L, int i, int x)
         s->data=x;
         s->next=*L;
         *L=s;
-        return １;
+        return 1;
     }
     else
     {
-        p=Get_LinkList1(*L, i-１);
+        p=Get_LinkList1(*L, i-1);
         s=malloc(sizeof(LNode));
         s->data=x;
         s->next=p->next;
         p->next=s;
-        return １;
+        return 1;
     }
 }
 
@@ -627,7 +627,7 @@ int Insert_LinkList2(LinkList L, int i, int x)
     LNode *p, *s;
     int length;
     length = Length_LinkList2(L);
-    if(i<1||i>length+１)
+    if(i<1||i>length+1)
         return 0;
     if(i==1)
     {
@@ -635,16 +635,16 @@ int Insert_LinkList2(LinkList L, int i, int x)
         s->data=x;
         s->next=L->next;
         L->next=s;
-        return １;
+        return 1;
     }
     else
     {
-        p=Get_LinkList2(L, i-１);
+        p=Get_LinkList2(L, i-1);
         s=malloc(sizeof(LNode));
         s->data=x;
         s->next=p->next;
         p->next=s;
-        return １;
+        return 1;
     }
 }
 
@@ -652,19 +652,19 @@ int Insert_LinkList2(LinkList L, int i, int x)
 int Delete_LinkList1(LinkList *L, int i)
 {
     LinkList p, s;
-    p=Get_LinkList1(*L, i-１);
+    p=Get_LinkList1(*L, i-1);
     if(i==1&&*L)
     {
         LinkList q;
         q=*L;
         *L=(*L)->next;
         free(q);
-        return １;
+        return 1;
     }
     if(p==NULL)
     {
         printf("第i-１个结点不存在\n");
-        return -１;
+        return -1;
     }
     else if(p->next==NULL)
     {
@@ -676,7 +676,7 @@ int Delete_LinkList1(LinkList *L, int i)
         s=p->next;
         p->next=s->next;
         free(s);
-        return １;
+        return 1;
     }
 }
 
@@ -696,7 +696,7 @@ int Delete_LinkList2(LinkList L, int i)
         if(!p)
         {
             printf("第i-１个结点不存在\n");
-            return -１;
+            return -1;
         }
         else if(!p->next)
         {
@@ -708,10 +708,10 @@ int Delete_LinkList2(LinkList L, int i)
             s=p->next;
             p->next=s->next;
             free(s);
-            return １;
+            return 1;
         }
     }
-    return １;
+    return 1;
 }
 
 //带头结点单链表去重算法
@@ -746,7 +746,7 @@ int main()
     LinkList L;
     L = Create_LinkList4();
     Print_LinkList2(L);
-    Delete_LinkList2(L, ４);
+    Delete_LinkList2(L, 4);
     printf("\n");
     Print_LinkList2(L);
     return 0;
@@ -961,7 +961,7 @@ int main()
 ```C
 #include<stdio.h>
 #include<stdlib.h>
-#define MAXSIZE １00
+#define MAXSIZE 100
 
 typedef int datatype;
 typedef struct
@@ -974,24 +974,24 @@ SeqStack * Init_SeqStack()
 {
     SeqStack *s;
     s=malloc(sizeof(SeqStack));
-    s->top=-１;
+    s->top=-1;
     return s;
 }
 
 int Empty_SeqStack(SeqStack *s)
 {
-    if(s->top==-１)
-        return １;
+    if(s->top==-1)
+        return 1;
     return 0;
 }
 
 int Push_SeqStack(SeqStack *s, datatype x)
 {
-    if(s->top==MAXSIZE-１)
+    if(s->top==MAXSIZE-1)
         return 0;
     s->top++;
     s->data[s->top]=x;
-    return １;
+    return 1;
 }
 
 int Pop_SeqStack(SeqStack *s)
@@ -1016,9 +1016,9 @@ int main()
     SeqStack *s;
     int i,j,k;
     s=Init_SeqStack();
-    Push_SeqStack(s, １);
-    Push_SeqStack(s ,２);
-    Push_SeqStack(s, ３);
+    Push_SeqStack(s, 1);
+    Push_SeqStack(s ,2);
+    Push_SeqStack(s, 3);
     i=Pop_SeqStack(s);
     j=Pop_SeqStack(s);
     k=Pop_SeqStack(s);
@@ -1050,7 +1050,7 @@ LinkStack Init_LinkStack()
 int Empty_LinkStack(LinkStack top)
 {
     if(top==NULL)
-        return １;
+        return 1;
     return 0;
 }
 
@@ -1081,9 +1081,9 @@ int main()
     LinkStack top;
     int i, j ,k;
     top=Init_LinkStack();
-    top=Push_LinkStack(top, １);
-    top=Push_LinkStack(top, ２);
-    top=Push_LinkStack(top, ３);
+    top=Push_LinkStack(top, 1);
+    top=Push_LinkStack(top, 2);
+    top=Push_LinkStack(top, 3);
     top=Pop_LinkStack(top, &i);
     top=Pop_LinkStack(top, &j);
     top=Pop_LinkStack(top, &k);
@@ -1213,7 +1213,7 @@ void In_LQueue(LQueue *q, datatype x)
 int Empty_LQueue(LQueue *q)
 {
     if(q->front==q->rear)
-        return １;
+        return 1;
     return 0;
 }
 
@@ -1231,7 +1231,7 @@ int Out_LQueue(LQueue *q, datatype *x)
     free(p);
     if(q->front->next==NULL)
         q->rear=q->front;
-    return １;
+    return 1;
 }
 
 int main()
@@ -1240,8 +1240,8 @@ int main()
     int i, j;
     p=Init_LQueue();
     printf("队列是否为空%d\n", Empty_LQueue(p));
-    In_LQueue(p, １);
-    In_LQueue(p, ２);
+    In_LQueue(p, 1);
+    In_LQueue(p, 2);
     Out_LQueue(p, &i);
     printf("%d %d", i);
     printf("\n队列是否为空%d", Empty_LQueue(p));
@@ -1261,7 +1261,7 @@ int main()
 //稀疏矩阵的建立
 #include<stdio.h>
 #include<stdlib.h>
-#define MAXSIZE １00
+#define MAXSIZE 100
 
 typedef int datatype;
 typedef struct
@@ -2019,4 +2019,28 @@ int main()
 
 3. 查找
 
-   按给定的某个值kx，在查找表中查找关键码为给定值kx的数据元素（记录）。关键码是主关键码时：由于主关键码唯一，所以查找结果也是唯一的，一旦找到，
+   按给定的某个值kx，在查找表中查找关键码为给定值kx的数据元素（记录）。关键码是主关键码时：由于主关键码唯一，所以查找结果也是唯一的，一旦找到即为查找成功，结束查找过程，并给出找到的数据元素（记录）的信息，或指示该数据元素（记录）的记录。如果整个表检测完，还没有找到，则查找失败，此时查找结果应给出一个“空”记录或“空”指针。
+   
+   关键码时次关键码时：查找成功往往是指找到的第一个符合条件的数据元素（记录），查找其他相同关键码值的数据（记录），需要查遍表中所有数据元素（记录），或在可以肯定查找失败时，才能结束查找过程。
+   
+4. 平均查找长度ASL
+
+   分析查找算法的效率，通常用平均查找长度（Average Search Length，ASL）来衡量。
+
+   定义：在查找成功时，平均查找长度ASL是指为确定数据元素在表中的位置所进行的关键码比较次数的期望值。
+
+### 静态查找表
+
+静态查找表是数据元素的线性表，可以是基于数组的顺序存储或以线性链表存储。
+
+1. 顺序查找
+
+   顺序查找又称线性查找，是最基本的查找方法之一。其查找过程为：从表的一端开始，向另一端逐个将其关键码与给定的值kx进行比较，若相等，则查找成功，并给出数据元素在表中的位置；若整个表检测完，仍未找到与kx相同的关键码，则查找失败，给出失败信息。
+
+2. 有序表的折半查找
+
+   有序表是表中数据元素按关键码升序或降序排列。对于有序表，若按顺序存储结构存储，可以用折半查找来实现查找操作。
+
+
+## 排序
+
